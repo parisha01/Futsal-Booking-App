@@ -1,80 +1,60 @@
-# Futsal Booking App — Flutter Front-End (Assessment 4)
+# Futsal Booking App
 
-Cross-platform front-end implementation of the Futsal Booking App, based on
-the high-fidelity Figma prototype from Assessment 3.
+This is the Flutter front-end for my Futsal Booking App, built for Assessment 4. It follows the high-fidelity Figma prototype I designed in Assessment 3.
 
-## Implemented major features
+## What the app does
 
-1. **Full Booking Flow** — Court List (search + filter by price/time/location
-   + sort) → Court Details (photos, rating, amenities, reviews, time slots)
-   → Booking (date/time/player selection with live dynamic price calculation,
-   **double-booking prevention**, **promo code** discount) → Payment
-   (method selection + validated card fields + order summary) →
-   Confirmation (booking ID, manage booking link).
-2. **My Bookings** — Upcoming/Past tabs, Booking Details, Cancel (live
-   status update via Provider).
-3. **Account system** — Sign Up (name, mobile number, email, password +
-   confirm password, full validation) registers a real account; Login
-   validates against it and shows specific errors ("no account found" vs
-   "incorrect email or password"); Profile shows account info with Edit
-   Profile and Delete my account; Remember me checkbox on Login.
-4. **Favourites** — heart icon on every court card and Court Details;
-   My Favourites screen lists saved venues.
-5. **Rankings** — courts ranked by rating with medal badges for top 3.
-6. **Compare venues** — select 2-3 courts on Court List to see a
-   side-by-side comparison highlighting the top-rated pick.
-7. **Notifications** — booking confirmations, reminders, and discount
-   promos.
+The app lets users search for futsal courts, view details about each venue, book a time slot, pay, and manage their bookings afterwards. It also includes an account system, favourites, court rankings, and a way to compare venues side by side.
 
-7 courts total (3 Nepal-based from the original prototype + 4 Australian
-venues: Sydney, Melbourne, Gold Coast, Perth), each with full details,
-amenities, and reviews.
+## Main features
 
-## Notable design decisions
+**Booking flow**
+- Browse courts with search, filters (price, time, location), and sorting
+- View court details — photos, ratings, amenities, reviews, and available time slots
+- Book a court by picking a date, time slot, and number of players, with the price calculated live
+- Already-booked time slots are shown as unavailable so two people can't double-book the same slot
+- Apply a promo code (try FUTSAL10 or WEEKEND15) for a discount
+- Pay by card, PayPal, or cash, with basic validation on card details
+- Get a confirmation screen with a unique booking ID
 
-- **Real credential validation**: `UserProvider` keeps an in-memory
-  email→password/name/phone map. Sign Up registers; Login checks the
-  email exists and the password matches, returning a specific error
-  otherwise — not just accepting any input.
-- **Double-booking prevention**: `BookingProvider.isSlotTaken()` checks
-  existing confirmed bookings for the same court/date/slot. A same-day
-  mock booking (Kathmandu Futsal Arena, today, 7:00pm) is seeded so this
-  can be demonstrated live.
-- **Promo codes**: `FUTSAL10` (10% off) and `WEEKEND15` (15% off).
-- These patterns (real-time slot availability, promo codes, amenities,
-  rankings, favourites, venue comparison, notifications) were informed by
-  reviewing comparable apps (KheloMore, Playo, Book Playgrounds).
+**Managing bookings**
+- See upcoming and past bookings
+- View booking details and cancel if needed
 
-## Getting started
+**Account**
+- Sign up with name, mobile number, email, and password (with confirm password)
+- Log in with real validation — wrong email or password shows a proper error message
+- Edit your profile details, upload a profile photo from your gallery, or delete your account
+- "Remember me" option on login
 
-```bash
+**Other features**
+- Favourite courts and view them later in one place
+- See courts ranked by rating
+- Compare 2–3 courts side by side
+- Notifications for bookings and promo offers
+
+There are 7 courts in total — the 3 original ones from my Assessment 3 prototype plus 4 more based in Australia (Sydney, Melbourne, Gold Coast, and Perth).
+
+## Why I built it this way
+
+- Since this is front-end only, there's no real backend — all data is stored locally using Provider (BookingProvider and UserProvider) for the current session.
+- I added real login/signup validation rather than letting any input through, since that felt more like a genuine app.
+- I looked at a few existing booking apps (KheloMore, Playo) for ideas on things like real-time slot availability, promo codes, and venue rankings, then adapted them to fit this app.
+- I put more effort into the visual design this time — consistent colours, spacing, and shadows — since that was flagged as an area to improve in my Assessment 3 feedback.
+
+## Running the project
+
 flutter pub get
 flutter run
-```
 
-Requires Flutter SDK (stable channel) and a running emulator/device. If this
-is a fresh checkout without platform folders, run `flutter create .` first
-to generate them (this will not overwrite `lib/` or `pubspec.yaml`).
+You'll need Flutter installed and an emulator or device running. If you're setting this up fresh and the android/ios folders are missing, run flutter create . first (this won't overwrite anything in lib/).
 
 ## Project structure
 
-```
 lib/
-  main.dart                  # App entry point, Provider setup
-  theme/app_theme.dart        # Design system: colors, typography, shadows
-  models/                     # Court, Booking data models (mock data)
-  providers/                  # BookingProvider, UserProvider (state management)
-  screens/                    # All screens, grouped by feature
-  widgets/                    # Reusable components (CourtCard, StatusBadge, nav)
-```
-
-## Notes
-
-- This is a front-end-only implementation (no backend/API); all data is
-  mocked locally via `CourtRepository`, `BookingProvider`, and `UserProvider`.
-- State management uses the `provider` package throughout.
-- Colors, spacing, and shadows are centralised in `app_theme.dart` to keep
-  visual design consistent across all screens, matching the Figma
-  prototype's green/turf identity.
-
-# Futsal-Booking-App
+  main.dart              # App entry point
+  theme/                 # Colours, typography, spacing
+  models/                # Court and Booking data
+  providers/             # State management (bookings, user account)
+  screens/               # All the app's screens
+  widgets/               # Shared components like cards and nav bar
